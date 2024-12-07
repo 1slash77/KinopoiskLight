@@ -40,7 +40,8 @@ android {
 }
 
 dependencies {
-    project(":core")
+    implementation(project(":core"))
+    implementation(project(":ui"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

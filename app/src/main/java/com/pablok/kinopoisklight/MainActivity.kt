@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 
+//import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
