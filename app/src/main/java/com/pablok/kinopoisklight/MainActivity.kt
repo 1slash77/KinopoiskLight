@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.pablok.kinopoisklight.ui.AppScreen
+import com.pablok.kinopoisklight.ui.navigation.NavDestination
 import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 
 //import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
@@ -18,32 +20,12 @@ import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContent {
             KinopoiskLightTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppScreen(NavDestination.Search.route)
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    KinopoiskLightTheme {
-        Greeting("Android")
-    }
-}
