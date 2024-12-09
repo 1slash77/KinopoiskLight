@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.pablok.kinopoisklight.search.SearchScreen
 
 sealed class NavDestination(
     val route: String,
@@ -38,25 +39,20 @@ fun NavGraph(
         //TODO add animation
         //composableWithAnimations(MainScreenContent.Characters.route) {
         composable(NavDestination.Search.route) {
-            TmpSearchScreen(NavDestination.Search.title)
+            SearchScreen(NavDestination.Search.title)
         }
 
         composable(NavDestination.Movie.route) {
-            TmpSearchScreen(NavDestination.Movie.title)
+            TmpMovieScreen(NavDestination.Movie.title)
         }
 
         composable(NavDestination.Actor.route) {
-            TmpSearchScreen(NavDestination.Actor.title)
+            TmpActorScreen(NavDestination.Actor.title)
         }
     }
 }
 
-@Composable
-fun TmpSearchScreen(
-    title: String
-) {
-    Text(title)
-}
+
 
 @Composable
 fun TmpMovieScreen(

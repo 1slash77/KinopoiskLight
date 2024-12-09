@@ -23,3 +23,4 @@ rootProject.name = "KinopoiskLight"
 include(":app")
 include(":core")
 include(":ui")
+include(":search")
