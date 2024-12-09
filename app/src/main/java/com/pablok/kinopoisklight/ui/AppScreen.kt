@@ -77,8 +77,8 @@ fun Content(
     }
 }
 
-@Preview(name = "Main light theme", uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Preview(name = "Main in dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun MainScreenPreview() {
     KinopoiskLightTheme() {
