@@ -14,9 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.pablok.kinopoisklight.ui.AppScreen
 import com.pablok.kinopoisklight.ui.navigation.NavDestination
 import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 //import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
