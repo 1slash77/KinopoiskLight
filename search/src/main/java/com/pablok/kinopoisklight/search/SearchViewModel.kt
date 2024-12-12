@@ -16,6 +16,6 @@ class SearchViewModel @Inject constructor(
 /*    private val comicsRepository: ComicsRepository,
     appSettings: AppSettings*/
 ) : ViewModel() {
-    private val _comicsScreenState = mutableStateOf(SearchScreenState())
-    val comicsScreenState: State<SearchScreenState> get() = _comicsScreenState
+    private val _screenState = mutableStateOf(SearchScreenState())
+    val screenState: State<SearchScreenState> get() = _screenState
 }

@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":ui"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
@@ -48,8 +50,13 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
 
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.compose.material.iconsExtended)
+
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.ui.tooling.preview.android)
+    debugImplementation(libs.ui.tooling)
     ksp(libs.dagger.hilt.android.compiler)
 
     testImplementation(libs.junit)

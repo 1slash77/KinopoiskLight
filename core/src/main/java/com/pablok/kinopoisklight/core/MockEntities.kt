@@ -5,20 +5,20 @@ import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.Thumbnail
 
 object MockEntitis  {
-    fun mockCharacter() = Actor(
+    fun mockActor() = Actor(
         id = 0,
-        name = "Spider-Man",
+        name = "Bruce",
         thumbnail = mockThumbnail()
     )
 
-    fun mockComic() = Movie(
+    fun mockMovie() = Movie(
         id = 0,
-        title = "SPIDER-BOY ANNUAL #1",
+        title = "Interstellar",
         thumbnail = mockThumbnail()
     )
 
     fun mockThumbnail() = Thumbnail(
-        path = "http://icon",
+        path = "https://upload.wikimedia.org/wikipedia/ru/c/c3/Interstellar_2014",
         extension = "jpg"
     )
 }
