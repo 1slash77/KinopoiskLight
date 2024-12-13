@@ -6,8 +6,15 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.pablok.kinopoisklight.core.MockEntitis
+import com.pablok.kinopoisklight.core.dto.Movie
+import kotlinx.coroutines.delay
 
 data class SearchScreenState(
+    val movies: List<Movie>? = null,
+    val isRefreshing: Boolean = true,
+
+
     val total: Int? = null,
 )
 
@@ -18,4 +25,12 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
     private val _screenState = mutableStateOf(SearchScreenState())
     val screenState: State<SearchScreenState> get() = _screenState
+
+    suspend fun fetch() {
+        _screenState.value = screenState.value.copy(isRefreshing = true)
+        delay(700)
+
+        _screenState.value = screenState.value.copy(movies = MockEntitis.mockMovies())
+        _screenState.value = screenState.value.copy(isRefreshing = false)
+    }
 }

@@ -3,6 +3,7 @@ package com.pablok.kinopoisklight.core
 import com.pablok.kinopoisklight.core.dto.Actor
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.Thumbnail
+import kotlin.random.Random
 
 object MockEntitis  {
     fun mockActor() = Actor(
@@ -30,7 +31,8 @@ object MockEntitis  {
                 Movie(
                     id = offset + n,
                     title = "Interstellar ${offset + n}",
-                    thumbnail = mockThumbnail()
+                    thumbnail = mockThumbnail(),
+                    isFavorite = Random.nextBoolean()
                 )
             )
         }
