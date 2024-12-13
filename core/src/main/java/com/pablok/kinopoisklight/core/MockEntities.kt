@@ -21,4 +21,19 @@ object MockEntitis  {
         path = "https://upload.wikimedia.org/wikipedia/ru/c/c3/Interstellar_2014",
         extension = "jpg"
     )
+
+    fun mockMovies(): List<Movie> {
+        val offset = (0..100).random()
+        val movies: MutableList<Movie> = mutableListOf()
+        repeat(21) { n ->
+            movies.add(
+                Movie(
+                    id = offset + n,
+                    title = "Interstellar ${offset + n}",
+                    thumbnail = mockThumbnail()
+                )
+            )
+        }
+        return movies.toList()
+    }
 }
