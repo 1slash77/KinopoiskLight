@@ -53,35 +53,4 @@ object NetworkModule {
             .addInterceptor(interceptor)
             .build()
     }
-
-/*    @Provides
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS)*/
-
-/*    @Provides
-    fun provideAuthInterceptor(): AuthInterceptor = AuthInterceptor(
-        publicKey = NetworkConstants.PUBLIC_KEY,
-        privateKey = NetworkConstants.PRIVATE_KEY
-    )*/
-
-    @Provides
-    fun provideOkHttpClientBuilder(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor
-    ): OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(5, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
-        .retryOnConnectionFailure(true)
-        .addInterceptor(authInterceptor)
-        .addInterceptor(httpLoggingInterceptor)
-        .build()
-
-/*
-    @Provides
-    fun provideGsonBuilder(): Gson = GsonBuilder()
-        .setLenient()
-        .serializeNulls()
-        .create()
-*/
-
 }

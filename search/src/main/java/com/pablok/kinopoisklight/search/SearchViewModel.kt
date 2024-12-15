@@ -1,5 +1,6 @@
 package com.pablok.kinopoisklight.search
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import javax.inject.Inject
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pablok.kinopoisklight.core.MockEntitis
 import com.pablok.kinopoisklight.core.dto.Movie
+import com.pablok.kinopoisklight.network.KinopoiskApi
 import kotlinx.coroutines.delay
 
 data class SearchScreenState(
@@ -20,6 +22,7 @@ data class SearchScreenState(
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    private val api: KinopoiskApi
 /*    private val comicsRepository: ComicsRepository,
     appSettings: AppSettings*/
 ) : ViewModel() {
@@ -28,8 +31,9 @@ class SearchViewModel @Inject constructor(
 
     suspend fun fetch() {
         _screenState.value = screenState.value.copy(isRefreshing = true)
-        delay(700)
-
+        //delay(700)
+        val res = api.getMovie(258687)
+        Log.d("mytag", "res: $res")
         _screenState.value = screenState.value.copy(movies = MockEntitis.mockMovies())
         _screenState.value = screenState.value.copy(isRefreshing = false)
     }
