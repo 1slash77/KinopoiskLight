@@ -5,11 +5,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MovieResponse(
-    val docs: Array<Movie>
+    val docs: Array<MovieNet>
 )
 
 @Serializable
-data class Movie(
+data class MovieNet(
     val id: Int,
     val movieLength: Int,
     val year: Int,
