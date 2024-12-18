@@ -1,5 +1,6 @@
 package com.pablok.kinopoisklight.search
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import coil.compose.AsyncImage
 import com.pablok.kinopoisklight.core.MockEntitis
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.ui.debugPlaceholder
+import com.pablok.kinopoisklight.ui.elements.FavoriteIcon
 import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 
 @Composable
@@ -47,6 +49,7 @@ fun MovieItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .height(290.dp)
             .padding(vertical = 10.dp, horizontal = 20.dp)
             .border(
                 width = 2.dp,
@@ -55,6 +58,7 @@ fun MovieItem(
             )
     ) {
         Box() {
+            Log.d("mytag", "AsyncImage: ${movie.thumbnail.path}");
             AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -65,7 +69,8 @@ fun MovieItem(
                             bottomStart = CornerSize(0.dp)
                         )
                     ),
-                model = "${movie.thumbnail.path}.${movie.thumbnail.extension}",
+                //model = "${movie.thumbnail.path}.${movie.thumbnail.extension}",
+                model = movie.thumbnail.path,
                 placeholder = debugPlaceholder(),
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth
@@ -74,9 +79,9 @@ fun MovieItem(
             FavoriteIcon(
                 selected = savedToFavorites,
                 modifier = Modifier.align(Alignment.TopEnd)
-            ) { selected ->
-                if (selected) onAddFavoriteComic(movie)
-                else onDeleteFavoriteComic(movie)
+            ) {
+                if (isFavorite) onDeleteFavoriteComic(movie)
+                else onAddFavoriteComic(movie)
             }
         }
 
@@ -88,9 +93,10 @@ fun MovieItem(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 6.dp)
-                .padding(horizontal = 3.dp),
-            text = movie.title.uppercase(),
+                .padding(6.dp)
+                //.padding(horizontal = 3.dp)
+            ,
+            text = movie.title,
             textAlign = TextAlign.Center,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
@@ -115,25 +121,6 @@ fun MovieItem(
 
     }
 }
-
-@Composable
-fun FavoriteIcon(
-    selected: Boolean = false,
-    modifier: Modifier = Modifier,
-    onClick: (Boolean) -> Unit
-) {
-    IconButton(
-        modifier = modifier,
-        onClick = { onClick(!selected) }
-    ) {
-        Icon(
-            imageVector = if (selected) Icons.Default.Star else Icons.Default.StarOutline,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.tertiary
-        )
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable

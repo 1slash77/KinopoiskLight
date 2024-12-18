@@ -44,6 +44,11 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.material3.android)
+
+    implementation(libs.androidx.ui.tooling.preview.android)
+    debugImplementation(libs.ui.tooling)
+    implementation(libs.androidx.compose.material.iconsExtended)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

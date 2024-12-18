@@ -41,7 +41,8 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":ui"))
-    implementation(project(":network"))
+    implementation(project(":movies_repository"))
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
@@ -54,10 +55,12 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.compose.material.iconsExtended)
 
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.ui.tooling.preview.android)
     debugImplementation(libs.ui.tooling)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
     ksp(libs.dagger.hilt.android.compiler)
 
     testImplementation(libs.junit)

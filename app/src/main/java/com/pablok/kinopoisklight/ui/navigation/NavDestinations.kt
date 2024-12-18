@@ -13,17 +13,17 @@ sealed class NavDestination(
 ) {
     data object Search: NavDestination(
         route = "search",
-        title = "Search"
+        title = "Поиск фильмов"
     )
 
     data object Movie: NavDestination(
         route = "movie",
-        title = "Movie"
+        title = "Фильм"
     )
 
     data object Actor: NavDestination(
         route = "actor",
-        title = "Actor"
+        title = "Актер"
     )
 }
 

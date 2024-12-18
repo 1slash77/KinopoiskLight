@@ -11,10 +11,10 @@ data class MovieResponse(
 @Serializable
 data class MovieNet(
     val id: Int,
-    val movieLength: Int,
+    val movieLength: Int?,
     val year: Int,
     val name: String,
-    val description: String,
+    val description: String?,
     val poster: MoviePoster
 )
 

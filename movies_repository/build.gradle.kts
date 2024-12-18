@@ -3,11 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
-    namespace = "com.pablok.kinopoisklight.network"
+    namespace = "com.pablok.kinopoisklight"
     compileSdk = 34
 
     defaultConfig {
@@ -37,6 +36,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":network"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -49,23 +49,8 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.dagger.hilt.android.compiler)
 
-
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-
-    // Retrofit with Scalar Converter
-    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
-
-    // Retrofit with Kotlin serialization Converter
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
-
-    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
-
-    // Kotlin serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-
-
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

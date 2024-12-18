@@ -7,22 +7,23 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.pablok.kinopoisklight.MoviesRepository
 import com.pablok.kinopoisklight.core.MockEntitis
 import com.pablok.kinopoisklight.core.dto.Movie
-import com.pablok.kinopoisklight.network.KinopoiskApi
+
 import kotlinx.coroutines.delay
 
 data class SearchScreenState(
     val movies: List<Movie>? = null,
     val isRefreshing: Boolean = true,
+    val errorMessage: String? = null,
+    val showOnlyFavorites: Boolean = false
 
-
-    val total: Int? = null,
 )
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val api: KinopoiskApi
+    private val movieRepo: MoviesRepository
 /*    private val comicsRepository: ComicsRepository,
     appSettings: AppSettings*/
 ) : ViewModel() {
@@ -32,9 +33,17 @@ class SearchViewModel @Inject constructor(
     suspend fun fetch() {
         _screenState.value = screenState.value.copy(isRefreshing = true)
         //delay(700)
-        val res = api.getMovie(258687)
+        //val res = movieRepo.getMovie(258687)
+        val res = movieRepo.getRecentMovie()
         Log.d("mytag", "res: $res")
-        _screenState.value = screenState.value.copy(movies = MockEntitis.mockMovies())
+        _screenState.value = screenState.value.copy(
+            movies = res.movies,
+            errorMessage = res.errorMessage
+        )
         _screenState.value = screenState.value.copy(isRefreshing = false)
+    }
+
+    fun onFavoritesStateChanged() {
+
     }
 }

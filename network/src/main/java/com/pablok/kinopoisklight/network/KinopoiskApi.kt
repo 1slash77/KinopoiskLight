@@ -10,5 +10,18 @@ interface KinopoiskApi {
     suspend fun getRandomTitle(): String
 
     @GET("movie")
-    suspend fun getMovie(@Query("id") id: Int): Response<MovieResponse>
+    suspend fun getMovie(
+        @Query("id") id: Int
+    ): Response<MovieResponse>
+
+    @GET("movie")
+    suspend fun getRecentMovies(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("type") type: String,
+        @Query("year") year: String,
+        @Query("rating.kp") raitingKp: String,
+    ): Response<MovieResponse>
+
+    //.url("https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&type=movie&year=2024&rating.kp=8-10")
 }
