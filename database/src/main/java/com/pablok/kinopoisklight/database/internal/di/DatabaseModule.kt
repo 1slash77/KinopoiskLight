@@ -28,7 +28,7 @@ object DatabaseModule {
     ): MovieDao = database.movieDao()
 
     @Provides
-    fun provideComicDao(
+    fun provideActorDao(
         database: KinopoiskDatabase
     ): ActorDao = database.actorDao()
 }

@@ -13,8 +13,8 @@ interface MovieDao {
     suspend fun getMovies(): List<MovieLocal>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(comic: MovieLocal)
+    suspend fun insert(movie: MovieLocal)
 
     @Delete
-    suspend fun delete(comic: MovieLocal)
+    suspend fun delete(movie: MovieLocal)
 }

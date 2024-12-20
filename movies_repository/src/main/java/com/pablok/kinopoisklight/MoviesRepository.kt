@@ -3,30 +3,37 @@ package com.pablok.kinopoisklight
 import android.util.Log
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.Thumbnail
+import com.pablok.kinopoisklight.database.dto.MovieLocal
+import com.pablok.kinopoisklight.database.internal.DatabaseDataAdapter
+import com.pablok.kinopoisklight.database.internal.dao.MovieDao
 import com.pablok.kinopoisklight.network.KinopoiskApi
 import com.pablok.kinopoisklight.network.NetworkResponse
 import com.pablok.kinopoisklight.network.dto.MovieResponse
 import com.pablok.kinopoisklight.network.internal.NetworkDataAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
 
 
-data class ComicsData(
+data class MoviesData(
     val movies: List<Movie>? = null,
     val errorMessage: String? = null,
 )
 
 class MoviesRepository @Inject constructor(
     private val api: KinopoiskApi,
-    //private val favoritesDao: ComicDao,
-    private val adapter: NetworkDataAdapter
+    private val movieDao: MovieDao,
+    private val adapterNet: NetworkDataAdapter,
+    private val adapterDb: DatabaseDataAdapter
 ) {
-    suspend fun getMovie(id: Int): ComicsData {
+    suspend fun getMovie(id: Int): MoviesData {
 
-        return ComicsData()
+        return MoviesData()
     }
 
-    suspend fun getRecentMovie(): ComicsData {
+    suspend fun getRecentMovie(): MoviesData {
+        val favorites = adapterDb.toDomain(movieDao.getMovies())
         val response = requestNetwork<MovieResponse> {
             api.getRecentMovies(
                 page = 1,
@@ -36,7 +43,7 @@ class MoviesRepository @Inject constructor(
                 raitingKp = "8-10"
             )
         }
-        return toComicsData(response)
+        return toMoviesData(response, favorites)
     }
 
 
@@ -56,14 +63,37 @@ class MoviesRepository @Inject constructor(
         }
     }
 
-    fun toComicsData(response: NetworkResponse<MovieResponse>): ComicsData {
+    fun toMoviesData(response: NetworkResponse<MovieResponse>, favorites: List<Movie>): MoviesData {
         if (response is NetworkResponse.Success) {
-            val movies = adapter.toDomain(response.data!!.docs.toList())
-            return ComicsData(movies)
+            val movies = adapterNet.toDomain(response.data!!.docs.toList())
+            return MoviesData(setFavorites(movies, favorites))
         } else if (response is NetworkResponse.Error) {
-            return ComicsData(errorMessage = response.errorMsg)
+            return MoviesData(errorMessage = response.errorMsg)
         }
-        return ComicsData()
+        return MoviesData()
     }
+
+    private fun setFavorites(items: List<Movie>, favorites: List<Movie>): List<Movie> {
+        return items.map { mv ->
+            val fav = favorites.firstOrNull { it.id == mv.id }
+            mv.copy(isFavorite = fav != null)
+        }
+    }
+
+    suspend fun getFavorites() = withContext(Dispatchers.IO) {
+        adapterDb.toDomain(movieDao.getMovies()).map {
+            it.copy(isFavorite = true)
+        }
+    }
+
+    suspend fun updateFavoriteState(movie: Movie, newState: Boolean) = withContext(Dispatchers.IO) {
+        movie.isFavorite = newState;
+        if (newState) {
+            movieDao.insert(adapterDb.fromDomain(movie))
+        } else {
+            movieDao.delete((adapterDb.fromDomain(movie)))
+        }
+    }
+
 }
 

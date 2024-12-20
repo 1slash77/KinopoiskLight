@@ -37,7 +37,6 @@ fun NavGraph(
         startDestination = startDestination
     ) {
         //TODO add animation
-        //composableWithAnimations(MainScreenContent.Characters.route) {
         composable(NavDestination.Search.route) {
             SearchScreen(NavDestination.Search.title)
         }
@@ -51,7 +50,6 @@ fun NavGraph(
         }
     }
 }
-
 
 
 @Composable

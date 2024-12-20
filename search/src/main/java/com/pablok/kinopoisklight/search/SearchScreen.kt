@@ -44,9 +44,7 @@ fun SearchScreen(
     val state by viewModel.screenState
 
     val onRefresh: () -> Unit = {
-        coroutineScope.launch {
             viewModel.fetch()
-        }
     }
 
     if (state.movies == null) {
@@ -60,7 +58,7 @@ fun SearchScreen(
             TopAppBarFavorites(
                 title = title,
                 showOnlyFavorites = state.showOnlyFavorites,
-                onClickFavorites = { viewModel.onFavoritesStateChanged() }
+                onClickFavorites = { viewModel.showOnlyFavorites(!state.showOnlyFavorites) }
             )
         }
     ) {
@@ -79,7 +77,9 @@ fun SearchScreen(
                         ErrorContent(error, onClick = onRefresh)
                     }
                 } else {
-                    Content(movies, false)
+                    Content(movies, false) { movie, checked ->
+                        viewModel.onFavoriteChanged(movie, checked)
+                    }
                 }
             }
         }
@@ -113,6 +113,7 @@ fun ErrorContent(
 fun Content(
     movies: List<Movie>,
     showOnlyFavorites: Boolean,
+    onFavoriteChanged: (Movie, Boolean) -> Unit
 
 ) {
     LazyVerticalGrid(
@@ -123,8 +124,9 @@ fun Content(
                 MovieItem(
                     movie = it,
                     isFavorite = it.isFavorite,
-                    onAddFavoriteComic = {  },
-                    onDeleteFavoriteComic = {  }
+                    onFavoriteChanged = { checked ->
+                        onFavoriteChanged(it, checked)
+                    },
                 )
             }
         }
@@ -138,7 +140,8 @@ fun ContentPreview() {
     KinopoiskLightTheme {
         Content(
             movies = MockEntitis.mockMovies(),
-            showOnlyFavorites = false
+            showOnlyFavorites = false,
+            onFavoriteChanged = {it1 ,it2 -> }
         )
     }
 

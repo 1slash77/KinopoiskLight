@@ -13,8 +13,8 @@ interface ActorDao {
     suspend fun getActors(): List<ActorLocal>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(Actor: ActorLocal)
+    suspend fun insert(actor: ActorLocal)
 
     @Delete
-    suspend fun delete(Actor: ActorLocal)
+    suspend fun delete(actor: ActorLocal)
 }
