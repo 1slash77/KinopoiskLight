@@ -1,18 +1,14 @@
 package com.pablok.kinopoisklight.search
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import com.pablok.kinopoisklight.MoviesRepository
-import com.pablok.kinopoisklight.core.MockEntitis
 import com.pablok.kinopoisklight.core.dto.Movie
 
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 data class SearchScreenState(

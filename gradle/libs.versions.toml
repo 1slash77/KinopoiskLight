@@ -21,6 +21,9 @@ coilCompose = "2.7.0"
 uiToolingPreviewAndroid = "1.7.5"
 uiTooling = "1.7.5"
 room = "2.6.1"
+mockito = "5.13.0"
+mockitoKotlin = "5.4.0"
+kotlinxCoroutinesTest = "1.9.0"
 
 
 [libraries]
@@ -53,6 +56,9 @@ androidx-compose-material-iconsExtended = { module = "androidx.compose.material:
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 
 
 # UI Test

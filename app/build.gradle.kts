@@ -77,4 +77,15 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.dagger.hilt.android.compiler)
+
+    testImplementation(project(":movies_repository"))
+    testImplementation(project(":database"))
+    testImplementation(project(":network"))
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+
 }

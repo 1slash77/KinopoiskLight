@@ -5,7 +5,7 @@ import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.Thumbnail
 import kotlin.random.Random
 
-object MockEntitis  {
+object MockEntities  {
     fun mockActor() = Actor(
         id = 0,
         name = "Bruce",

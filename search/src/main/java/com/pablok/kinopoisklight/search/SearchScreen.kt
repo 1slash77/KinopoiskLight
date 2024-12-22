@@ -9,13 +9,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -26,12 +21,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.pablok.kinopoisklight.core.MockEntitis
+import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.ui.elements.TopAppBarFavorites
 import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -139,7 +133,7 @@ fun Content(
 fun ContentPreview() {
     KinopoiskLightTheme {
         Content(
-            movies = MockEntitis.mockMovies(),
+            movies = MockEntities.mockMovies(),
             showOnlyFavorites = false,
             onFavoriteChanged = {it1 ,it2 -> }
         )

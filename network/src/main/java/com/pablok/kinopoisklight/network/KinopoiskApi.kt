@@ -16,12 +16,11 @@ interface KinopoiskApi {
 
     @GET("movie")
     suspend fun getRecentMovies(
-        @Query("page") page: Int,
-        @Query("limit") limit: Int,
-        @Query("type") type: String,
-        @Query("year") year: String,
-        @Query("rating.kp") raitingKp: String,
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 21,
+        @Query("type") type: String = "movie",
+        @Query("year") year: String = "2024",
+        @Query("rating.kp") raitingKp: String = "8-10",
     ): Response<MovieResponse>
 
-    //.url("https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&type=movie&year=2024&rating.kp=8-10")
 }

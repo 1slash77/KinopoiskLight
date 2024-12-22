@@ -1,9 +1,6 @@
 package com.pablok.kinopoisklight
 
-import android.util.Log
 import com.pablok.kinopoisklight.core.dto.Movie
-import com.pablok.kinopoisklight.core.dto.Thumbnail
-import com.pablok.kinopoisklight.database.dto.MovieLocal
 import com.pablok.kinopoisklight.database.internal.DatabaseDataAdapter
 import com.pablok.kinopoisklight.database.internal.dao.MovieDao
 import com.pablok.kinopoisklight.network.KinopoiskApi
@@ -35,13 +32,7 @@ class MoviesRepository @Inject constructor(
     suspend fun getRecentMovie(): MoviesData {
         val favorites = adapterDb.toDomain(movieDao.getMovies())
         val response = requestNetwork<MovieResponse> {
-            api.getRecentMovies(
-                page = 1,
-                limit = 21,
-                type = "movie",
-                year = "2024",
-                raitingKp = "8-10"
-            )
+            api.getRecentMovies()
         }
         return toMoviesData(response, favorites)
     }

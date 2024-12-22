@@ -1,6 +1,5 @@
 package com.pablok.kinopoisklight.search
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.pablok.kinopoisklight.core.MockEntitis
+import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.ui.debugPlaceholder
 import com.pablok.kinopoisklight.ui.elements.FavoriteIcon
@@ -91,7 +90,7 @@ fun MovieItem(
 private fun MovieItemPreview() {
     KinopoiskLightTheme {
         MovieItem(
-            movie = MockEntitis.mockMovie(),
+            movie = MockEntities.mockMovie(),
             isFavorite = false,
             onFavoriteChanged = {},
         )
