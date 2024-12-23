@@ -86,5 +86,13 @@ class MoviesRepository @Inject constructor(
         }
     }
 
+    suspend fun searchMovie(query: String): MoviesData {
+        val favorites = adapterDb.toDomain(movieDao.getMovies())
+        val response = requestNetwork<MovieResponse> {
+            api.searchMovie(query = query)
+        }
+        return toMoviesData(response, favorites)
+    }
+
 }
 

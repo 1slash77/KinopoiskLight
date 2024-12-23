@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.Movie
+import com.pablok.kinopoisklight.ui.components.MyTextField
 import com.pablok.kinopoisklight.ui.elements.TopAppBarFavorites
 import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 import kotlinx.coroutines.CoroutineScope
@@ -38,7 +39,8 @@ fun SearchScreen(
     val state by viewModel.screenState
 
     val onRefresh: () -> Unit = {
-            viewModel.fetch()
+            //viewModel.fetch()
+            viewModel.searchMovie("")
     }
 
     if (state.movies == null) {
@@ -63,16 +65,27 @@ fun SearchScreen(
             isRefreshing = state.isRefreshing,
             onRefresh = onRefresh,
         ) {
-            if (!state.isRefreshing) {
-                val movies = state.movies
-                val error = state.errorMessage
-                if (movies == null) {
-                    if (error != null) {
-                        ErrorContent(error, onClick = onRefresh)
-                    }
-                } else {
-                    Content(movies, false) { movie, checked ->
-                        viewModel.onFavoriteChanged(movie, checked)
+            Column(
+
+            ) {
+                SearchField(
+                    title = "Поиск фильмов",
+                    text = state.searchText,
+                    onTextChanged = { viewModel.onSearchTextChanged(it) },
+                    onSearchClicked = { viewModel.onSearchTextChanged(state.searchText) }
+                )
+
+                if (!state.isRefreshing) {
+                    val movies = state.movies
+                    val error = state.errorMessage
+                    if (movies == null) {
+                        if (error != null) {
+                            ErrorContent(error, onClick = onRefresh)
+                        }
+                    } else {
+                        Content(movies, false) { movie, checked ->
+                            viewModel.onFavoriteChanged(movie, checked)
+                        }
                     }
                 }
             }
@@ -126,6 +139,20 @@ fun Content(
         }
 
 
+}
+
+@Composable
+fun SearchField(
+    title: String,
+    text: String,
+    onTextChanged: (String) -> Unit,
+    onSearchClicked: (String) -> Unit,
+) {
+    MyTextField(
+        title, text,
+        onTextChanged = onTextChanged,
+        onSearchClicked = onSearchClicked
+    )
 }
 
 @Preview

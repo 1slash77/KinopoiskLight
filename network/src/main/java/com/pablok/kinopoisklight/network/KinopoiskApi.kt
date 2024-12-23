@@ -31,4 +31,26 @@ interface KinopoiskApi {
         )
     ): Response<MovieResponse>
 
+    @GET("movie/search")
+    suspend fun searchMovie(
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 10,
+        @Query("query") query: String,
+        //@Query("type") type: String = "movie",
+/*        @Query("notNullFields") notNullFields: List<String> = listOf(
+            "name",
+            "poster.url",
+            "year",
+            "description",
+        ),*/
+/*        @Query("selectFields") selectedField: List<String> = listOf(
+            "id",
+            "name",
+            "movieLength",
+            "year",
+            "description",
+            "poster"
+        )*/
+    ): Response<MovieResponse>
+
 }

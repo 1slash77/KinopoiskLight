@@ -15,7 +15,9 @@ data class SearchScreenState(
     val movies: List<Movie>? = null,
     val isRefreshing: Boolean = true,
     val errorMessage: String? = null,
-    val showOnlyFavorites: Boolean = false
+    val showOnlyFavorites: Boolean = false,
+
+    val searchText: String = "",
 
 )
 
@@ -67,6 +69,22 @@ class SearchViewModel @Inject constructor(
             if (screenState.value.showOnlyFavorites) {
                 _screenState.value = screenState.value.copy(movies = movieRepo.getFavorites())
             }
+        }
+    }
+
+    fun onSearchTextChanged(text: String) {
+        _screenState.value = screenState.value.copy(searchText = text)
+    }
+
+    fun searchMovie(query: String) {
+        _screenState.value = screenState.value.copy(isRefreshing = true)
+        viewModelScope.launch {
+            val res = movieRepo.searchMovie("интерстеллар")
+            _screenState.value = screenState.value.copy(
+                movies = res.movies,
+                errorMessage = res.errorMessage
+            )
+            _screenState.value = screenState.value.copy(isRefreshing = false)
         }
     }
 }
