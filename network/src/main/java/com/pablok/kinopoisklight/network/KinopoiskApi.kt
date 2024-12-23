@@ -21,6 +21,14 @@ interface KinopoiskApi {
         @Query("type") type: String = "movie",
         @Query("year") year: String = "2024",
         @Query("rating.kp") raitingKp: String = "8-10",
+        @Query("selectFields") selectedField: List<String> = listOf(
+            "id",
+            "name",
+            "movieLength",
+            "year",
+            "description",
+            "poster"
+        )
     ): Response<MovieResponse>
 
 }
