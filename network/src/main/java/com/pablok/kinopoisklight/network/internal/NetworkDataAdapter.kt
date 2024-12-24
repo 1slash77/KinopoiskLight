@@ -26,7 +26,7 @@ class NetworkDataAdapter @Inject constructor(): BaseDomainAdapter<Movie, MovieNe
             id = another.id,
             title = another.name,
             thumbnail = Thumbnail(
-                path = another.poster.previewUrl,
+                path = if (another.poster != null) another.poster.previewUrl else "",
                 extension = ""
             ),
             isFavorite = false

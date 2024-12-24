@@ -40,7 +40,7 @@ fun MyTextField(
     title: String,
     text: String,
     onTextChanged: (String) -> Unit,
-    onSearchClicked: (String) -> Unit,
+    onSearchClicked: () -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -92,7 +92,7 @@ fun MyTextField(
                         .scale(1.5f)
                         .clickable {
                             keyboardController?.hide()
-                            onSearchClicked(text)
+                            onSearchClicked()
                     }
                 )
             }
@@ -105,7 +105,7 @@ fun MyTextField(
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                onSearchClicked(text)
+                onSearchClicked()
             }
         )
     )

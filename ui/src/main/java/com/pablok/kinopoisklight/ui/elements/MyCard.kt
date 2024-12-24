@@ -43,7 +43,7 @@ fun MyCard(
                 MaterialTheme.colorScheme.surfaceVariant
         ),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
+            defaultElevation = 4.dp
         )
     ) {
         content()
@@ -62,8 +62,8 @@ fun GridItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(290.dp)
-                .padding(vertical = 8.dp, horizontal = 8.dp)
+                //.height(290.dp)
+                //.padding(vertical = 8.dp, horizontal = 8.dp)
             /*            .border(
                 width = 2.dp,
                 color = MaterialTheme.colorScheme.tertiary,
@@ -71,12 +71,12 @@ fun GridItem(
             )*/
         ) {
             Box() {
-                Log.d("mytag", "\"${title}\"    imageModel: $imageModel")
+                //Log.d("mytag", "\"${title}\"    imageModel: $imageModel")
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
-                                        .clip(
+                        .clip(
                         MaterialTheme.shapes.medium.copy(
                             bottomEnd = CornerSize(0.dp),
                             bottomStart = CornerSize(0.dp)

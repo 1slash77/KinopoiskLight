@@ -102,7 +102,7 @@ class SearchViewModel @Inject constructor(
     private suspend fun searchMovie(query: String) {
         _screenState.value = screenState.value.copy(isRefreshing = true)
         val res = movieRepo.searchMovie(query)
-        Log.d("mytag", "movies: ${res.movies?.size}, err: ${res.errorMessage}");
+        //Log.d("mytag", "movies: ${res.movies?.size}, err: ${res.errorMessage}");
         _screenState.value = screenState.value.copy(
             movies = if (res.movies == null) emptyList() else res.movies!!,
             errorMessage = res.errorMessage

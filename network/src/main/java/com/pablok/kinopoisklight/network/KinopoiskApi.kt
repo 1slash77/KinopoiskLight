@@ -37,12 +37,12 @@ interface KinopoiskApi {
         @Query("limit") limit: Int = 10,
         @Query("query") query: String,
         //@Query("type") type: String = "movie",
-        @Query("notNullFields") notNullFields: List<String> = listOf(
+/*        @Query("notNullFields") notNullFields: List<String> = listOf(
             "name",
             "poster.url",
             "year",
             "description",
-        ),
+        ),*/
 /*        @Query("selectFields") selectedField: List<String> = listOf(
             "id",
             "name",

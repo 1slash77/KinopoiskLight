@@ -1,23 +1,17 @@
 package com.pablok.kinopoisklight.search
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.Movie
+import com.pablok.kinopoisklight.ui.components.ErrorContent
 import com.pablok.kinopoisklight.ui.components.MyTextField
 import com.pablok.kinopoisklight.ui.elements.TopAppBarFavorites
 import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
@@ -55,44 +50,76 @@ fun SearchScreen(
         }
     }
 
+    Content(
+        title = "Фильмы",
+        showOnlyFavorites = state.showOnlyFavorites,
+        onShowFavoritesChanged = { viewModel.showOnlyFavorites(!state.showOnlyFavorites) },
+        searchText = state.searchText,
+        onSearchTextChanged = { viewModel.onSearchTextChanged(it) },
+        onSearchClicked = { viewModel.onSearchClicked(state.searchText) },
+        isRefreshing = state.isRefreshing,
+        onRefresh = onRefresh,
+        movies = state.movies,
+        errorMessage = state.errorMessage,
+        onFavoriteChanged = { movie, checked ->
+            viewModel.onFavoriteChanged(movie, checked)
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Content(
+    title: String,
+    movies: List<Movie>?,
+    errorMessage: String?,
+    showOnlyFavorites: Boolean,
+    onShowFavoritesChanged: (Boolean) -> Unit,
+    searchText: String,
+    onSearchTextChanged: (String) -> Unit,
+    onSearchClicked: () -> Unit,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    onFavoriteChanged: (Movie, Boolean) -> Unit
+
+) {
+    val padding = 8.dp
     Scaffold(
         topBar = {
             TopAppBarFavorites(
                 title = title,
-                showOnlyFavorites = state.showOnlyFavorites,
-                onClickFavorites = { viewModel.showOnlyFavorites(!state.showOnlyFavorites) }
+                showOnlyFavorites = showOnlyFavorites,
+                onClickFavorites = { onShowFavoritesChanged(!showOnlyFavorites) }
             )
         }
-    ) {
+    ) { contentPadding ->
         Column(modifier = Modifier
             .fillMaxSize()
-            .padding(it)
+            .padding(contentPadding)
+            .padding(padding)
             //.background(Color.Blue.copy(alpha = 0.3f))
         ) {
             SearchField(
                 title = "Поиск фильмов",
-                text = state.searchText,
-                onTextChanged = { viewModel.onSearchTextChanged(it) },
-                onSearchClicked = { viewModel.onSearchClicked(state.searchText) }
+                text = searchText,
+                onTextChanged = onSearchTextChanged,
+                onSearchClicked = onSearchClicked
             )
 
             PullToRefreshBox(
                 modifier = Modifier
                     .fillMaxWidth()
-                    //.background(Color.Red.copy(alpha = 0.3f))
+                    //.background(Color.Red)
+                    .padding(padding)
                 ,
-                isRefreshing = state.isRefreshing,
+                isRefreshing = isRefreshing,
                 onRefresh = onRefresh,
             ) {
-                if (!state.isRefreshing) {
-                    val movies = state.movies
-                    val error = state.errorMessage
-                    if (error != null) {
-                        ErrorContent(error, onClick = onRefresh)
+                if (!isRefreshing) {
+                    if (errorMessage != null) {
+                        ErrorContent(errorMessage, onClick = onRefresh)
                     } else if (movies != null) {
-                        Content(movies, false) { movie, checked ->
-                            viewModel.onFavoriteChanged(movie, checked)
-                        }
+                        MoviesContent(movies, onFavoriteChanged = onFavoriteChanged)
                     }
                 }
             }
@@ -100,33 +127,9 @@ fun SearchScreen(
     }
 }
 
-//TODO move to :ui
 @Composable
-fun ErrorContent(
-    errorMessage: String?,
-    onClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-    ) {
-        Text("Попробуйте еще раз" )
-        errorMessage?.let {
-            Text("Ошибка $it")
-        }
-        FilledTonalButton(onClick = onClick) {
-            Text("Обновить")
-        }
-    }
-}
-
-
-
-
-@Composable
-fun Content(
+fun MoviesContent(
     movies: List<Movie>,
-    showOnlyFavorites: Boolean,
     onFavoriteChanged: (Movie, Boolean) -> Unit
 
 ) {
@@ -134,6 +137,7 @@ fun Content(
         columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxWidth()
+            //.background(Color.Green)
             .padding(16.dp)
         ,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -149,8 +153,6 @@ fun Content(
                 )
             }
         }
-
-
 }
 
 @Composable
@@ -158,7 +160,7 @@ fun SearchField(
     title: String,
     text: String,
     onTextChanged: (String) -> Unit,
-    onSearchClicked: (String) -> Unit,
+    onSearchClicked: () -> Unit,
 ) {
     MyTextField(
         title, text,
@@ -172,10 +174,17 @@ fun SearchField(
 fun ContentPreview() {
     KinopoiskLightTheme {
         Content(
+            title = "Фильмы",
             movies = MockEntities.mockMovies(),
+            errorMessage = null,
             showOnlyFavorites = false,
-            onFavoriteChanged = {it1 ,it2 -> }
+            onShowFavoritesChanged = {},
+            searchText = "",
+            onSearchTextChanged = {},
+            onSearchClicked = {},
+            isRefreshing = false,
+            onRefresh ={},
+            onFavoriteChanged = {it1, it2 ->}
         )
     }
-
 }

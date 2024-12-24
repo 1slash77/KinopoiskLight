@@ -15,7 +15,7 @@ data class MovieNet(
     val year: Int,
     val name: String,
     val description: String?,
-    val poster: MoviePoster
+    val poster: MoviePoster?
 )
 
 @Serializable

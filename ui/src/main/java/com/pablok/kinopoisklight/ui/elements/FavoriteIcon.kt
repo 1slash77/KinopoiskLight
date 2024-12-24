@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,13 +31,18 @@ fun FavoriteIconBase(
 ) {
     IconButton(
         modifier = modifier
-            .background(Color.White.copy(alpha = 0.5f))
+            //.background(Color.Green)
         ,
         onClick = onClick
     ) {
         Icon(
             imageVector = if (selected) Icons.Default.Star else Icons.Default.StarOutline,
             contentDescription = null,
+            modifier = Modifier
+                .clip(
+                    MaterialTheme.shapes.medium)
+                .background(Color.White.copy(alpha = 0.3f))
+            ,
             tint = MaterialTheme.colorScheme.tertiary
         )
     }
@@ -48,29 +54,27 @@ fun FavoriteIcon(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Box(
+/*    Box(
         modifier = modifier
-            //.background(Color.White.copy(alpha = 1f))
-            //.padding(2.dp)
-    ) {
+    ) {*/
         FavoriteIconBase(
             selected = selected,
             modifier = modifier,
             onClick = onClick
         )
-    }
+    //}
 }
 
 @Preview
 @Composable
 fun FavoriteIconPreview() {
     KinopoiskLightTheme {
-        Box(Modifier
+/*        Box(Modifier
             .size(100.dp, 100.dp)
             .background(MaterialTheme.colorScheme.tertiary)
 
-        )
-/*        Box() {
+        )*/
+        Box() {
             Image(
                 painterResource(R.drawable.async_image_placeholder), contentDescription = "",
                 //modifier = Modifier.size(200.dp, 400.dp)
@@ -79,6 +83,6 @@ fun FavoriteIconPreview() {
                 selected = false,
                 modifier = Modifier.align(Alignment.TopEnd)
             ) {}
-        }*/
+        }
     }
 }
