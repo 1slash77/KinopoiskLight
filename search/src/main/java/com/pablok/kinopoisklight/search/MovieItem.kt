@@ -25,10 +25,25 @@ import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.ui.debugPlaceholder
 import com.pablok.kinopoisklight.ui.elements.FavoriteIcon
+import com.pablok.kinopoisklight.ui.elements.GridItem
 import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
+
 
 @Composable
 fun MovieItem(
+    movie: Movie,
+    isFavorite: Boolean,
+    onFavoriteChanged: (Boolean) -> Unit,
+) {
+    GridItem(
+        title = movie.title,
+        imageModel = movie.thumbnail.path,
+        isFavorite = isFavorite,
+        onFavoriteChanged = onFavoriteChanged
+    )
+}
+@Composable
+fun MovieItem1(
     movie: Movie,
     isFavorite: Boolean,
     onFavoriteChanged: (Boolean) -> Unit,

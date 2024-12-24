@@ -67,13 +67,13 @@ class MoviesRepository @Inject constructor(
         }
     }
 
-    fun toMoviesData(response: NetworkResponse<MovieResponse>, favorites: List<Movie>): MoviesData {
+    private fun toMoviesData(response: NetworkResponse<MovieResponse>, favorites: List<Movie>): MoviesData {
         if (response is NetworkResponse.Success) {
             val movies = adapterNet.toDomain(response.data!!.docs
                 .filter { it.name.isNotEmpty() }
                 .toList()
             )
-            Log.d("mytag", "size: ${movies.size} data: \n ${movies.joinToString("\n")}");
+            //Log.d("mytag", "size: ${movies.size} data: \n ${movies.joinToString("\n")}");
             return MoviesData(setFavorites(movies, favorites))
         } else if (response is NetworkResponse.Error) {
             return MoviesData(errorMessage = response.errorMsg, movies = emptyList())

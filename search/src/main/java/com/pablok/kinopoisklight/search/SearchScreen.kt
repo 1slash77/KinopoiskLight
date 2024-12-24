@@ -2,6 +2,7 @@ package com.pablok.kinopoisklight.search
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -131,7 +132,12 @@ fun Content(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+        ,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(movies) {
                 MovieItem(

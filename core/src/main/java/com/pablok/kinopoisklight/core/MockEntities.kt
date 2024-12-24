@@ -19,7 +19,7 @@ object MockEntities  {
     )
 
     fun mockThumbnail() = Thumbnail(
-        path = "https://upload.wikimedia.org/wikipedia/ru/c/c3/Interstellar_2014",
+        path = "https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg",
         extension = "jpg"
     )
 
