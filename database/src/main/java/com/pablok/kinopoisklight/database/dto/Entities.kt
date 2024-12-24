@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 data class MovieLocal(
     @PrimaryKey val id: Int,
     val title: String,
-    val image: String,
+    val image: String?,
 )
 
 @Entity("actor")
 data class ActorLocal(
     @PrimaryKey val id: Int,
     val name: String,
-    val image: String,
+    val image: String?,
 )

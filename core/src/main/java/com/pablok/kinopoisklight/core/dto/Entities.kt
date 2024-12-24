@@ -15,6 +15,6 @@ data class Movie(
 )
 
 data class Thumbnail(
-    val path: String,
+    val path: String?,
     val extension: String
 )

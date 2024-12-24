@@ -20,6 +20,6 @@ data class MovieNet(
 
 @Serializable
 data class MoviePoster(
-    val url: String,
-    val previewUrl: String
+    val url: String?,
+    val previewUrl: String?
 )

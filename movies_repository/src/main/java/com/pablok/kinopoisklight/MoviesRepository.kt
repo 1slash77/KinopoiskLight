@@ -1,5 +1,7 @@
 package com.pablok.kinopoisklight
 
+import android.util.Log
+import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.database.internal.DatabaseDataAdapter
 import com.pablok.kinopoisklight.database.internal.dao.MovieDao
@@ -8,6 +10,7 @@ import com.pablok.kinopoisklight.network.NetworkResponse
 import com.pablok.kinopoisklight.network.dto.MovieResponse
 import com.pablok.kinopoisklight.network.internal.NetworkDataAdapter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
@@ -24,6 +27,8 @@ class MoviesRepository @Inject constructor(
     private val adapterNet: NetworkDataAdapter,
     private val adapterDb: DatabaseDataAdapter
 ) {
+    private val mock = true
+
     suspend fun getMovie(id: Int): MoviesData {
 
         return MoviesData()
@@ -31,10 +36,18 @@ class MoviesRepository @Inject constructor(
 
     suspend fun getRecentMovie(): MoviesData {
         val favorites = adapterDb.toDomain(movieDao.getMovies())
-        val response = requestNetwork<MovieResponse> {
-            api.getRecentMovies()
+        if (mock) {
+            delay(200)
+            val response = MovieResponse(
+                docs = adapterNet.fromDomain(MockEntities.mockMovies()).toTypedArray()
+            )
+            return toMoviesData(NetworkResponse.Success(response), favorites)
+        } else {
+            val response = requestNetwork<MovieResponse> {
+                api.getRecentMovies()
+            }
+            return toMoviesData(response, favorites)
         }
-        return toMoviesData(response, favorites)
     }
 
 
@@ -56,10 +69,14 @@ class MoviesRepository @Inject constructor(
 
     fun toMoviesData(response: NetworkResponse<MovieResponse>, favorites: List<Movie>): MoviesData {
         if (response is NetworkResponse.Success) {
-            val movies = adapterNet.toDomain(response.data!!.docs.toList())
+            val movies = adapterNet.toDomain(response.data!!.docs
+                .filter { it.name.isNotEmpty() }
+                .toList()
+            )
+            Log.d("mytag", "size: ${movies.size} data: \n ${movies.joinToString("\n")}");
             return MoviesData(setFavorites(movies, favorites))
         } else if (response is NetworkResponse.Error) {
-            return MoviesData(errorMessage = response.errorMsg)
+            return MoviesData(errorMessage = response.errorMsg, movies = emptyList())
         }
         return MoviesData()
     }
@@ -88,10 +105,23 @@ class MoviesRepository @Inject constructor(
 
     suspend fun searchMovie(query: String): MoviesData {
         val favorites = adapterDb.toDomain(movieDao.getMovies())
-        val response = requestNetwork<MovieResponse> {
-            api.searchMovie(query = query)
+        if (!mock) {
+            Log.d("mytag", "search for \"${query}\"...")
+            delay(1000)
+            val movies = MockEntities.mockMovies().take(5).map {
+                it.copy(title = "${query} ${it.id}")
+            }
+            val response = MovieResponse(
+                docs = adapterNet.fromDomain(movies).toTypedArray()
+            )
+            Log.d("mytag", "search for \"${query}\"...DONE")
+            return toMoviesData(NetworkResponse.Success(response), favorites)
+        } else {
+            val response = requestNetwork<MovieResponse> {
+                api.searchMovie(query = query)
+            }
+            return toMoviesData(response, favorites)
         }
-        return toMoviesData(response, favorites)
     }
 
 }

@@ -1,8 +1,12 @@
 package com.pablok.kinopoisklight.search
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -19,7 +23,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.Movie
@@ -39,8 +45,7 @@ fun SearchScreen(
     val state by viewModel.screenState
 
     val onRefresh: () -> Unit = {
-            //viewModel.fetch()
-            viewModel.searchMovie("")
+        viewModel.fetch()
     }
 
     if (state.movies == null) {
@@ -58,31 +63,32 @@ fun SearchScreen(
             )
         }
     ) {
-        PullToRefreshBox(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it),
-            isRefreshing = state.isRefreshing,
-            onRefresh = onRefresh,
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(it)
+            //.background(Color.Blue.copy(alpha = 0.3f))
         ) {
-            Column(
+            SearchField(
+                title = "Поиск фильмов",
+                text = state.searchText,
+                onTextChanged = { viewModel.onSearchTextChanged(it) },
+                onSearchClicked = { viewModel.onSearchClicked(state.searchText) }
+            )
 
+            PullToRefreshBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    //.background(Color.Red.copy(alpha = 0.3f))
+                ,
+                isRefreshing = state.isRefreshing,
+                onRefresh = onRefresh,
             ) {
-                SearchField(
-                    title = "Поиск фильмов",
-                    text = state.searchText,
-                    onTextChanged = { viewModel.onSearchTextChanged(it) },
-                    onSearchClicked = { viewModel.onSearchTextChanged(state.searchText) }
-                )
-
                 if (!state.isRefreshing) {
                     val movies = state.movies
                     val error = state.errorMessage
-                    if (movies == null) {
-                        if (error != null) {
-                            ErrorContent(error, onClick = onRefresh)
-                        }
-                    } else {
+                    if (error != null) {
+                        ErrorContent(error, onClick = onRefresh)
+                    } else if (movies != null) {
                         Content(movies, false) { movie, checked ->
                             viewModel.onFavoriteChanged(movie, checked)
                         }

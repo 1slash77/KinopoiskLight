@@ -1,13 +1,16 @@
 package com.pablok.kinopoisklight.search
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pablok.kinopoisklight.MoviesRepository
 import com.pablok.kinopoisklight.core.dto.Movie
+import kotlinx.coroutines.delay
 
 import kotlinx.coroutines.launch
 
@@ -33,7 +36,6 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             //val res = movieRepo.getMovie(258687)
             val res = movieRepo.getRecentMovie()
-            //Log.d("mytag", "res: $res")
             _screenState.value = screenState.value.copy(
                 movies = res.movies,
                 errorMessage = res.errorMessage
@@ -73,18 +75,39 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchTextChanged(text: String) {
+        if (text == screenState.value.searchText) {
+            return
+        }
         _screenState.value = screenState.value.copy(searchText = text)
-    }
-
-    fun searchMovie(query: String) {
-        _screenState.value = screenState.value.copy(isRefreshing = true)
+        if (text.length < 2) return
         viewModelScope.launch {
-            val res = movieRepo.searchMovie("интерстеллар")
-            _screenState.value = screenState.value.copy(
-                movies = res.movies,
-                errorMessage = res.errorMessage
-            )
-            _screenState.value = screenState.value.copy(isRefreshing = false)
+            val searchFor = text.trim()
+            delay(700)
+            if (searchFor != screenState.value.searchText) {
+                return@launch
+            }
+            searchMovie(searchFor)
         }
     }
+
+    fun onSearchClicked(text: String) {
+        val searchFor = text.trim()
+        if (searchFor.isNotEmpty()) {
+            viewModelScope.launch {
+                searchMovie(searchFor)
+            }
+        }
+    }
+
+    private suspend fun searchMovie(query: String) {
+        _screenState.value = screenState.value.copy(isRefreshing = true)
+        val res = movieRepo.searchMovie(query)
+        Log.d("mytag", "movies: ${res.movies?.size}, err: ${res.errorMessage}");
+        _screenState.value = screenState.value.copy(
+            movies = if (res.movies == null) emptyList() else res.movies!!,
+            errorMessage = res.errorMessage
+        )
+        _screenState.value = screenState.value.copy(isRefreshing = false)
+    }
+
 }

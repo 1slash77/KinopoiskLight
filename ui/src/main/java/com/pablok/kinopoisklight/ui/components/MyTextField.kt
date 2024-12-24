@@ -77,7 +77,7 @@ fun MyTextField(
                         .scale(1.5f)
                         .clickable {
                             keyboardController?.hide()
-                            onTextChanged(text)
+                            onSearchClicked(text)
                     }
                 )
             }
