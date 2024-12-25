@@ -40,8 +40,7 @@ fun NavGraph(
     ) {
         //TODO add animation
         composable(NavDestination.Search.route) {
-            SearchScreen(NavDestination.Search.title) { movieId ->
-                Log.d("mytag", "click: $movieId")
+            SearchScreen() { movieId ->
                 navController.navigate(
                     NavDestination.Movie.route //Just modify your route accordingly
                         .replace(
@@ -54,7 +53,6 @@ fun NavGraph(
 
         composable(NavDestination.Movie.route) { navBackStackEntry ->
             val uId = navBackStackEntry.arguments?.getString("uId")
-            Log.d("mytag", "uId: $uId")
             MovieScreen(uId)
         }
 

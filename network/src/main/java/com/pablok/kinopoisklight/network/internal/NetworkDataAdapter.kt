@@ -1,6 +1,5 @@
 package com.pablok.kinopoisklight.network.internal
 
-import com.pablok.kinopoisklight.core.BaseDomainAdapter
 import com.pablok.kinopoisklight.core.dto.Actor
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.MovieDetails

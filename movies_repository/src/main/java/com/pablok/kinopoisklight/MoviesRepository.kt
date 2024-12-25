@@ -97,7 +97,7 @@ class MoviesRepository @Inject constructor(
     }
 
     suspend fun updateFavoriteState(movie: Movie, newState: Boolean) = withContext(Dispatchers.IO) {
-        movie.isFavorite = newState;
+        movie.isFavorite = newState
         if (newState) {
             movieDao.insert(adapterDb.fromDomain(movie))
         } else {
@@ -108,7 +108,7 @@ class MoviesRepository @Inject constructor(
     suspend fun searchMovie(query: String): MoviesData {
         val favorites = adapterDb.toDomain(movieDao.getMovies())
         if (!mock) {
-            Log.d("mytag", "search for \"${query}\"...")
+            //Log.d("mytag", "search for \"${query}\"...")
             delay(1000)
             val movies = MockEntities.mockMovies().take(5).map {
                 it.copy(title = "${query} ${it.id}")
@@ -116,7 +116,7 @@ class MoviesRepository @Inject constructor(
             val response = MovieResponse(
                 docs = adapterNet.fromDomain(movies).toTypedArray()
             )
-            Log.d("mytag", "search for \"${query}\"...DONE")
+            //Log.d("mytag", "search for \"${query}\"...DONE")
             return toMoviesData(NetworkResponse.Success(response), favorites)
         } else {
             val response = requestNetwork<MovieResponse> {

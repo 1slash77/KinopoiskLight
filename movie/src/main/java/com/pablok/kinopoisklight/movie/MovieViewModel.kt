@@ -5,11 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pablok.kinopoisklight.MoviesRepository
-import com.pablok.kinopoisklight.core.MockEntities
-import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.MovieDetails
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

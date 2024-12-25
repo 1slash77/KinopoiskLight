@@ -36,7 +36,6 @@ fun MovieScreen(
     movieId: String?,
     viewModel: MovieViewModel = hiltViewModel()
 ) {
-    val coroutineScope: CoroutineScope = rememberCoroutineScope()
     val state by viewModel.screenState
 
     val onRefresh: () -> Unit = {
