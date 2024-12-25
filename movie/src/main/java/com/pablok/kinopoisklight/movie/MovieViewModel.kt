@@ -36,10 +36,10 @@ class MovieViewModel @Inject constructor(
         }catch (_: Exception) {}
 
         viewModelScope.launch {
-            delay(2000)
-
+            val movie = movieRepo.getMovieDetails(id)
             _screenState.value = screenState.value.copy(
-                details = MockEntities.mockMovieDetails(),
+                details = movie.movie,
+                errorMessage = movie.errorMessage,
                 isRefreshing = false
             )
         }

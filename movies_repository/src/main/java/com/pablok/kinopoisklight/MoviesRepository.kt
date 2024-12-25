@@ -131,11 +131,15 @@ class MoviesRepository @Inject constructor(
             api.getMovie(id)
         }
         if (response is NetworkResponse.Success) {
-            return MovieDetailsData(movie = response.data.)
+            val movie = adapterNet.toDomain(response.data!!)
+            return MovieDetailsData(
+                movie = movie
+            )
         } else if (response is NetworkResponse.Error) {
-            return MoviesData(errorMessage = response.errorMsg, movies = emptyList())
+            return MovieDetailsData(errorMessage = response.errorMsg)
+        } else {
+            return MovieDetailsData()
         }
     }
-
 }
 

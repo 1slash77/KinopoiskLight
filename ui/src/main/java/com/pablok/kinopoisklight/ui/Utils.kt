@@ -13,8 +13,8 @@ fun debugPlaceholder(@DrawableRes res: Int = R.drawable.async_image_placeholder)
     if (LocalInspectionMode.current) {
         painterResource(res)
     } else {
-        //null
-        painterResource(res)
+        null
+        //painterResource(res)
     }
 
 @Composable
