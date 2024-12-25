@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(
     fun fetch() {
         _screenState.value = screenState.value.copy(isRefreshing = true)
         viewModelScope.launch {
-            //val res = movieRepo.getMovie(258687)
+            movieRepo.getMovieDetails(258687)
             val res = movieRepo.getRecentMovie()
             _screenState.value = screenState.value.copy(
                 movies = res.movies,

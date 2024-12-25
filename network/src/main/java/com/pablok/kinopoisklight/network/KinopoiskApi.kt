@@ -1,18 +1,15 @@
 package com.pablok.kinopoisklight.network
 
+import com.pablok.kinopoisklight.network.dto.MovieDetailsResponse
 import com.pablok.kinopoisklight.network.dto.MovieResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface KinopoiskApi {
     @GET("movie/random")
     suspend fun getRandomTitle(): String
-
-    @GET("movie")
-    suspend fun getMovie(
-        @Query("id") id: Int
-    ): Response<MovieResponse>
 
     @GET("movie")
     suspend fun getRecentMovies(
@@ -52,5 +49,10 @@ interface KinopoiskApi {
             "poster"
         )*/
     ): Response<MovieResponse>
+
+    @GET("movie/{id}")
+    suspend fun getMovie(
+        @Path("id") id: Int
+    ): Response<MovieDetailsResponse>
 
 }

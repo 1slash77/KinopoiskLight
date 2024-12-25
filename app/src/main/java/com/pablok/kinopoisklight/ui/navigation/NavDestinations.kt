@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.pablok.kinopoisklight.movie.MovieScreen
 import com.pablok.kinopoisklight.search.SearchScreen
 
 sealed class NavDestination(
@@ -42,21 +43,13 @@ fun NavGraph(
         }
 
         composable(NavDestination.Movie.route) {
-            TmpMovieScreen(NavDestination.Movie.title)
+            MovieScreen(NavDestination.Movie.title)
         }
 
         composable(NavDestination.Actor.route) {
             TmpActorScreen(NavDestination.Actor.title)
         }
     }
-}
-
-
-@Composable
-fun TmpMovieScreen(
-    title: String
-) {
-    Text(title)
 }
 
 @Composable

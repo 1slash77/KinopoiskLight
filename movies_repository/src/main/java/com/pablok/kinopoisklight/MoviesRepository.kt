@@ -29,11 +29,6 @@ class MoviesRepository @Inject constructor(
 ) {
     private val mock = true
 
-    suspend fun getMovie(id: Int): MoviesData {
-
-        return MoviesData()
-    }
-
     suspend fun getRecentMovie(): MoviesData {
         val favorites = adapterDb.toDomain(movieDao.getMovies())
         if (mock) {
@@ -122,6 +117,11 @@ class MoviesRepository @Inject constructor(
             }
             return toMoviesData(response, favorites)
         }
+    }
+
+    suspend fun getMovieDetails(id: Int) {
+        val res = api.getMovie(id)
+        Log.d("mytag", "res: ${res.body()}")
     }
 
 }

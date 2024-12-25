@@ -2,6 +2,7 @@ package com.pablok.kinopoisklight.core
 
 import com.pablok.kinopoisklight.core.dto.Actor
 import com.pablok.kinopoisklight.core.dto.Movie
+import com.pablok.kinopoisklight.core.dto.MovieDetails
 import com.pablok.kinopoisklight.core.dto.Thumbnail
 import kotlin.random.Random
 
@@ -9,7 +10,8 @@ object MockEntities  {
     fun mockActor() = Actor(
         id = 0,
         name = "Bruce",
-        thumbnail = mockThumbnail()
+        character = "MainHero",
+        photoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Matthew_McConaughey_2019_%2848648344772%29.jpg/1920px-Matthew_McConaughey_2019_%2848648344772%29.jpg"
     )
 
     fun mockMovie() = Movie(
@@ -38,4 +40,17 @@ object MockEntities  {
         }
         return movies.toList()
     }
+
+    fun mockMovieDetails() = MovieDetails(
+        id = 0,
+        name = "Интерстеллар",
+        movieLength = 169,
+        year = 2012,
+        description = "Когда засуха, пыльные бури и вымирание растений приводят человечество к продовольственному кризису, коллектив исследователей и учёных отправляется сквозь червоточину (которая предположительно соединяет области пространства-времени через большое расстояние) в путешествие, чтобы превзойти прежние ограничения для космических путешествий человека и найти планету с подходящими для человечества условиями.",
+        posterUrl = "https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg",
+        persons = List<Actor>(21) { i -> mockActor().copy(
+            name = "Имя актера $i",
+            character = "Имя героя $i"
+        ) },
+    )
 }
