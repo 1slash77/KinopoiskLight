@@ -107,7 +107,7 @@ class MoviesRepository @Inject constructor(
 
     suspend fun searchMovie(query: String): MoviesData {
         val favorites = adapterDb.toDomain(movieDao.getMovies())
-        if (!mock) {
+        if (mock) {
             //Log.d("mytag", "search for \"${query}\"...")
             delay(1000)
             val movies = MockEntities.mockMovies().take(5).map {
