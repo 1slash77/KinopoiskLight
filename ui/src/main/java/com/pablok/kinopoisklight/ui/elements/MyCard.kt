@@ -2,6 +2,7 @@ package com.pablok.kinopoisklight.ui.elements
 
 import android.util.Log
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,9 +34,12 @@ import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 @Composable
 fun MyCard(
     isSelected: Boolean,
-    content: @Composable () -> Unit
+    onClick: () -> Unit,
+    content: @Composable () -> Unit,
 ) {
     Card(
+        modifier = Modifier
+            .clickable { onClick() },
         colors = CardDefaults.cardColors(
             containerColor =
             if (isSelected) MaterialTheme.colorScheme.primaryContainer
@@ -55,10 +59,11 @@ fun GridItem(
     title: String,
     imageModel: Any?,
     isFavorite: Boolean,
-    onFavoriteChanged: (Boolean) -> Unit
+    onFavoriteChanged: (Boolean) -> Unit,
+    onClick: () -> Unit,
 ) {
     val savedToFavorites by rememberUpdatedState(isFavorite)
-    MyCard(isSelected = false) {
+    MyCard(isSelected = false, onClick = onClick) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -118,7 +123,8 @@ fun MyCardPreview() {
             title = "Title",
             imageModel = null,
             isFavorite = false,
-            onFavoriteChanged = {}
+            onFavoriteChanged = {},
+            onClick = {}
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.pablok.kinopoisklight.search
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,72 +34,19 @@ import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 fun MovieItem(
     movie: Movie,
     isFavorite: Boolean,
+    modifier: Modifier = Modifier,
     onFavoriteChanged: (Boolean) -> Unit,
+    onClick: () -> Unit,
 ) {
     GridItem(
         title = movie.title,
         imageModel = movie.thumbnail.path,
         isFavorite = isFavorite,
-        onFavoriteChanged = onFavoriteChanged
+        onFavoriteChanged = onFavoriteChanged,
+        onClick = onClick
     )
 }
-@Composable
-fun MovieItem1(
-    movie: Movie,
-    isFavorite: Boolean,
-    onFavoriteChanged: (Boolean) -> Unit,
-) {
-    //TODO improve UI for MovieItem
-    val savedToFavorites by rememberUpdatedState(isFavorite)
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(290.dp)
-            .padding(vertical = 10.dp, horizontal = 20.dp)
-            .border(
-                width = 2.dp,
-                color = MaterialTheme.colorScheme.tertiary,
-                shape = MaterialTheme.shapes.medium
-            )
-    ) {
-        Box() {
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .clip(
-                        MaterialTheme.shapes.medium.copy(
-                            bottomEnd = CornerSize(0.dp),
-                            bottomStart = CornerSize(0.dp)
-                        )
-                    ),
-                model = movie.thumbnail.path,
-                placeholder = debugPlaceholder(),
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth
-            )
-
-            FavoriteIcon(
-                selected = savedToFavorites,
-                modifier = Modifier.align(Alignment.TopEnd)
-            ) {
-                onFavoriteChanged(!isFavorite)
-            }
-        }
-
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(6.dp)
-            ,
-            text = movie.title,
-            textAlign = TextAlign.Center,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
@@ -108,6 +56,7 @@ private fun MovieItemPreview() {
             movie = MockEntities.mockMovie(),
             isFavorite = false,
             onFavoriteChanged = {},
+            onClick = {}
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.pablok.kinopoisklight.search
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 
@@ -35,7 +36,8 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun SearchScreen(
     title: String,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel(),
+    onShowMovie: (Int) -> Unit,
 ) {
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
     val state by viewModel.screenState
@@ -63,7 +65,8 @@ fun SearchScreen(
         errorMessage = state.errorMessage,
         onFavoriteChanged = { movie, checked ->
             viewModel.onFavoriteChanged(movie, checked)
-        }
+        },
+        onShowMovie = onShowMovie
     )
 }
 
@@ -80,8 +83,8 @@ fun Content(
     onSearchClicked: () -> Unit,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
-    onFavoriteChanged: (Movie, Boolean) -> Unit
-
+    onFavoriteChanged: (Movie, Boolean) -> Unit,
+    onShowMovie: (Int) -> Unit
 ) {
     val padding = 8.dp
     Scaffold(
@@ -119,7 +122,9 @@ fun Content(
                     if (errorMessage != null) {
                         ErrorContent(errorMessage, onClick = onRefresh)
                     } else if (movies != null) {
-                        MoviesContent(movies, onFavoriteChanged = onFavoriteChanged)
+                        MoviesContent(movies, onFavoriteChanged = onFavoriteChanged,
+                            onMovieClick = onShowMovie
+                            )
                     }
                 }
             }
@@ -130,8 +135,8 @@ fun Content(
 @Composable
 fun MoviesContent(
     movies: List<Movie>,
-    onFavoriteChanged: (Movie, Boolean) -> Unit
-
+    onFavoriteChanged: (Movie, Boolean) -> Unit,
+    onMovieClick: (Int) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -150,6 +155,7 @@ fun MoviesContent(
                     onFavoriteChanged = { checked ->
                         onFavoriteChanged(it, checked)
                     },
+                    onClick =  { onMovieClick(it.id) }
                 )
             }
         }
@@ -184,7 +190,8 @@ fun ContentPreview() {
             onSearchClicked = {},
             isRefreshing = false,
             onRefresh ={},
-            onFavoriteChanged = {it1, it2 ->}
+            onFavoriteChanged = {it1, it2 ->},
+            onShowMovie = {}
         )
     }
 }

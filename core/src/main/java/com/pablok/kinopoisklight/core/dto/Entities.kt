@@ -27,7 +27,8 @@ data class MovieDetails(
     val year: Int,
     val description: String?,
     val posterUrl: String?,
-    val persons: List<Actor>
+    val persons: List<Actor>,
+    val isFavorite: Boolean = false
 ) {
     override fun toString(): String {
         return "${super.toString()} persons:\n${persons.joinToString("\n\t")}"

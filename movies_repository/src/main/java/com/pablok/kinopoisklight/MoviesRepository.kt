@@ -3,10 +3,12 @@ package com.pablok.kinopoisklight
 import android.util.Log
 import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.Movie
+import com.pablok.kinopoisklight.core.dto.MovieDetails
 import com.pablok.kinopoisklight.database.internal.DatabaseDataAdapter
 import com.pablok.kinopoisklight.database.internal.dao.MovieDao
 import com.pablok.kinopoisklight.network.KinopoiskApi
 import com.pablok.kinopoisklight.network.NetworkResponse
+import com.pablok.kinopoisklight.network.dto.MovieDetailsResponse
 import com.pablok.kinopoisklight.network.dto.MovieResponse
 import com.pablok.kinopoisklight.network.internal.NetworkDataAdapter
 import kotlinx.coroutines.Dispatchers
@@ -21,13 +23,18 @@ data class MoviesData(
     val errorMessage: String? = null,
 )
 
+data class MovieDetailsData(
+    val movie: MovieDetails? = null,
+    val errorMessage: String? = null,
+)
+
 class MoviesRepository @Inject constructor(
     private val api: KinopoiskApi,
     private val movieDao: MovieDao,
     private val adapterNet: NetworkDataAdapter,
     private val adapterDb: DatabaseDataAdapter
 ) {
-    private val mock = true
+    private val mock = false
 
     suspend fun getRecentMovie(): MoviesData {
         val favorites = adapterDb.toDomain(movieDao.getMovies())
@@ -119,9 +126,15 @@ class MoviesRepository @Inject constructor(
         }
     }
 
-    suspend fun getMovieDetails(id: Int) {
-        val res = api.getMovie(id)
-        Log.d("mytag", "res: ${res.body()}")
+    suspend fun getMovieDetails(id: Int): MovieDetailsData {
+        val response = requestNetwork<MovieDetailsResponse> {
+            api.getMovie(id)
+        }
+        if (response is NetworkResponse.Success) {
+            return MovieDetailsData(movie = response.data.)
+        } else if (response is NetworkResponse.Error) {
+            return MoviesData(errorMessage = response.errorMsg, movies = emptyList())
+        }
     }
 
 }
