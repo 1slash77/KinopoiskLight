@@ -34,3 +34,11 @@ data class MovieDetails(
         return "${super.toString()} persons:\n${persons.joinToString("\n\t")}"
     }
 }
+
+data class ActorDetails(
+    val id: Int,
+    val name: String?,
+    val photoUrl: String?,
+    val profession: List<String>,
+    val birhtday: String?
+)

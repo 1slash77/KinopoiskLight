@@ -1,9 +1,12 @@
 package com.pablok.kinopoisklight.network.internal
 
 import com.pablok.kinopoisklight.core.dto.Actor
+import com.pablok.kinopoisklight.core.dto.ActorDetails
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.MovieDetails
 import com.pablok.kinopoisklight.core.dto.Thumbnail
+import com.pablok.kinopoisklight.network.dto.ActorDetailsNet
+import com.pablok.kinopoisklight.network.dto.ActorProfession
 import com.pablok.kinopoisklight.network.dto.MovieDetailsResponse
 import com.pablok.kinopoisklight.network.dto.MovieNet
 import com.pablok.kinopoisklight.network.dto.MoviePoster
@@ -73,5 +76,21 @@ class NetworkDataAdapter @Inject constructor() {
             )
         } ?: emptyList(),
         isFavorite = false
+    )
+
+    fun fromDomain(domain: ActorDetails) = ActorDetailsNet(
+        id = domain.id,
+        name = domain.name,
+        photo = domain.photoUrl,
+        profession = domain.profession.map {ActorProfession(it) }.toTypedArray(),
+        birhtday = domain.birhtday
+    )
+
+    fun toDomain(another:ActorDetailsNet) = ActorDetails(
+        id = another.id,
+        name = another.name,
+        photoUrl = another.photo,
+        profession = another.profession.map { it.value }.toList(),
+        birhtday = another.birhtday
     )
 }

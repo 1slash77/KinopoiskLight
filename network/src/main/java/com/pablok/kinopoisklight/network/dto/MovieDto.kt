@@ -47,3 +47,16 @@ data class ActorNet(
     val description: String?,
 )
 
+@Serializable
+data class ActorDetailsNet(
+    val id: Int,
+    val name: String?,
+    val photo: String?,
+    val profession: Array<ActorProfession>,
+    val birhtday: String?
+)
+
+@Serializable
+data class ActorProfession(
+    val value: String
+)

@@ -1,5 +1,6 @@
 package com.pablok.kinopoisklight.network
 
+import com.pablok.kinopoisklight.network.dto.ActorDetailsNet
 import com.pablok.kinopoisklight.network.dto.MovieDetailsResponse
 import com.pablok.kinopoisklight.network.dto.MovieResponse
 import retrofit2.Response
@@ -54,5 +55,10 @@ interface KinopoiskApi {
     suspend fun getMovie(
         @Path("id") id: Int
     ): Response<MovieDetailsResponse>
+
+    @GET("person/{id}")
+    suspend fun getActor(
+        @Path("id") id: Int
+    ): Response<ActorDetailsNet>
 
 }

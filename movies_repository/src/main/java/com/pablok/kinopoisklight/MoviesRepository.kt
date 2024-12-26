@@ -1,6 +1,5 @@
 package com.pablok.kinopoisklight
 
-import android.util.Log
 import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.MovieDetails

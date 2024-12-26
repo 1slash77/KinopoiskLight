@@ -1,6 +1,7 @@
 package com.pablok.kinopoisklight.core
 
 import com.pablok.kinopoisklight.core.dto.Actor
+import com.pablok.kinopoisklight.core.dto.ActorDetails
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.MovieDetails
 import com.pablok.kinopoisklight.core.dto.Thumbnail
@@ -52,5 +53,13 @@ object MockEntities  {
             name = "Имя актера $i",
             character = "Имя героя $i"
         ) },
+    )
+
+    fun mockActorDetails() = ActorDetails(
+        id = 0,
+        name = "Bruce",
+        photoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Matthew_McConaughey_2019_%2848648344772%29.jpg/1920px-Matthew_McConaughey_2019_%2848648344772%29.jpg",
+        profession = listOf("Актер", "Сценарист", "Продюсер"),
+        birhtday = "1962-01-01T00:00:00.000Z"
     )
 }
