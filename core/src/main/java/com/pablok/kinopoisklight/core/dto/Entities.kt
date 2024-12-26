@@ -1,5 +1,7 @@
 package com.pablok.kinopoisklight.core.dto
 
+import java.util.Date
+
 data class Actor(
     val id: Int,
     val name: String,
@@ -40,5 +42,7 @@ data class ActorDetails(
     val name: String?,
     val photoUrl: String?,
     val profession: List<String>,
-    val birhtday: String?
+    val birhtday: Date?,
+    val facts: List<String>,
+    val isFavorite: Boolean = false
 )

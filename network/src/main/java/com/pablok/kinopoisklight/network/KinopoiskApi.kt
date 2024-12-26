@@ -15,10 +15,15 @@ interface KinopoiskApi {
     @GET("movie")
     suspend fun getRecentMovies(
         @Query("page") page: Int = 1,
-        @Query("limit") limit: Int = 21,
+        @Query("limit") limit: Int = 10,
         @Query("type") type: String = "movie",
         @Query("year") year: String = "2024",
-        @Query("rating.kp") raitingKp: String = "8-10",
+        @Query("rating.imdb") raitingKp: String = "7-10",
+        @Query("sortField") sortField: String = "votes.kp",
+        @Query("sortType") sortType: String = "-1",
+        @Query("notNullFields") notNullFields: List<String> = listOf(
+            "name",
+            ),
         @Query("selectFields") selectedField: List<String> = listOf(
             "id",
             "name",

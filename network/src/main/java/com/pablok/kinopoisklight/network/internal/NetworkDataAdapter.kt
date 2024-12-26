@@ -6,10 +6,15 @@ import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.MovieDetails
 import com.pablok.kinopoisklight.core.dto.Thumbnail
 import com.pablok.kinopoisklight.network.dto.ActorDetailsNet
-import com.pablok.kinopoisklight.network.dto.ActorProfession
+import com.pablok.kinopoisklight.network.dto.ArrayValue
 import com.pablok.kinopoisklight.network.dto.MovieDetailsResponse
 import com.pablok.kinopoisklight.network.dto.MovieNet
 import com.pablok.kinopoisklight.network.dto.MoviePoster
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.Date
 import javax.inject.Inject
 
 class NetworkDataAdapter @Inject constructor() {
@@ -82,8 +87,9 @@ class NetworkDataAdapter @Inject constructor() {
         id = domain.id,
         name = domain.name,
         photo = domain.photoUrl,
-        profession = domain.profession.map {ActorProfession(it) }.toTypedArray(),
-        birhtday = domain.birhtday
+        profession = domain.profession.map {ArrayValue(it) }.toTypedArray(),
+        birthday = domain.birhtday?.let { SimpleDateFormat("dd MMM yyyy").format(it) },
+        facts = domain.facts.map {ArrayValue(it) }.toTypedArray(),
     )
 
     fun toDomain(another:ActorDetailsNet) = ActorDetails(
@@ -91,6 +97,17 @@ class NetworkDataAdapter @Inject constructor() {
         name = another.name,
         photoUrl = another.photo,
         profession = another.profession.map { it.value }.toList(),
-        birhtday = another.birhtday
+        birhtday = parseDate(another.birthday),
+        facts = another.facts.map { it.value }.toList(),
     )
+
+    private fun parseDate(s: String?): Date? {
+        try {
+            val ldt = LocalDateTime.parse(s!!.replace("Z", ""))
+            val zdt: ZonedDateTime = ldt.atZone(ZoneId.of("America/Los_Angeles"))
+            return Date.from(zdt.toInstant())
+        } catch (_: Exception) {
+            return null
+        }
+    }
 }

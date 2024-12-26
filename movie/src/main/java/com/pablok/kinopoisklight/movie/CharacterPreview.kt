@@ -1,5 +1,6 @@
 package com.pablok.kinopoisklight.movie
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +21,12 @@ import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
 
 @Composable
 fun CharacterItem(
-    character: Actor
+    character: Actor,
+    onClick: () -> Unit
 ) {
     Row(modifier = Modifier
         .fillMaxWidth()
+        .clickable { onClick() }
 
     ) {
         AsyncImage(
@@ -61,6 +64,6 @@ fun CharacterItem(
 @Composable
 fun CharacterItemPreview() {
     KinopoiskLightTheme {
-        CharacterItem(MockEntities.mockActor())
+        CharacterItem(MockEntities.mockActor(), {})
     }
 }

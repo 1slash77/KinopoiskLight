@@ -1,5 +1,7 @@
-package com.pablok.kinopoisklight.movie
+package com.pablok.kinopoisklight.actor
 
+
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,56 +20,58 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.pablok.kinopoisklight.core.MockEntities
-import com.pablok.kinopoisklight.core.dto.MovieDetails
+import com.pablok.kinopoisklight.core.dto.ActorDetails
 import com.pablok.kinopoisklight.ui.components.ErrorContent
 import com.pablok.kinopoisklight.ui.debugPlaceholder
 import com.pablok.kinopoisklight.ui.elements.TopAppBarFavorites
 import com.pablok.kinopoisklight.ui.theme.KinopoiskLightTheme
+import java.text.SimpleDateFormat
 
 @Composable
-fun MovieScreen(
-    movieId: String?,
-    viewModel: MovieViewModel = hiltViewModel(),
-    onShowActor: (Int) -> Unit,
+fun ActorScreen(
+    id: String?,
+    viewModel: ActorViewModel = hiltViewModel()
 ) {
     val state by viewModel.screenState
 
+    Log.d("mytag", "ActorScreen() ${state.isRefreshing}, ${state.actor}")
+
     val onRefresh: () -> Unit = {
-        viewModel.fetch(movieId)
+        viewModel.fetch(id)
     }
 
-    if (state.details == null) {
+    if (state.actor == null) {
         LaunchedEffect(Unit) {
             onRefresh()
         }
     }
 
-    MovieDetails(state.details,
+    ActorDetails(state.actor,
         isRefreshing = state.isRefreshing,
-        onFavoriteChanged = { },
-        onShowActor = onShowActor
+        onFavoriteChanged = { }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieDetails(
-    movie: MovieDetails?,
+fun ActorDetails(
+    actor: ActorDetails?,
     isRefreshing: Boolean = false,
     errorMessage: String? = null,
-    onShowActor: (Int) -> Unit,
+
     onFavoriteChanged: (Boolean) -> Unit = {},
 ) {
-    val isFavorite = movie?.isFavorite ?: false
+    val isFavorite = actor?.isFavorite ?: false
     Scaffold(
         topBar = {
             TopAppBarFavorites(
-                title = movie?.name ?: "",
+                title = actor?.name ?: "",
                 showOnlyFavorites = isFavorite,
                 onClickFavorites = { onFavoriteChanged(!isFavorite) }
             )
@@ -77,30 +81,30 @@ fun MovieDetails(
             modifier = Modifier
                 .fillMaxWidth()
                 //.background(Color.Red)
-                .padding(contentPadding)
-                .padding(16.dp),
+                .padding(contentPadding),
             isRefreshing = isRefreshing,
             onRefresh = { },
         ) {
             if (!isRefreshing) {
                 if (errorMessage != null) {
                     ErrorContent(errorMessage, onClick = {})
-                } else if (movie != null) {
-                    MovieContent(movie, onShowActor = onShowActor)
+                } else if (actor != null) {
+                    ActorContent(actor)
                 }
             }
         }
     }
+
 }
 
 @Composable
-fun MovieContent(
-    movie: MovieDetails,
-    onShowActor: (Int) -> Unit
+fun ActorContent(
+    actor: ActorDetails,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         AsyncImage(
@@ -114,42 +118,45 @@ fun MovieContent(
                                     )
                                 )*/
             ,
-            model = movie.posterUrl,
+            model = actor.photoUrl,
             placeholder = debugPlaceholder(),
             contentDescription = null,
             contentScale = ContentScale.Fit
         )
         Spacer(Modifier.height(16.dp))
-        Text("Год: ${movie.year}",
-            style = MaterialTheme.typography.bodyLarge
+        Text("${actor.name}",
+            style = MaterialTheme.typography.headlineSmall,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
 
         )
-        Text("Продолжительность: ${movie.movieLength} мин.",
+        Spacer(Modifier.height(16.dp))
+        Text("День рождения: ${actor.birhtday?.let { SimpleDateFormat("dd MMM yyyy").format(it) }}",
             style = MaterialTheme.typography.bodyLarge
         )
         Spacer(Modifier.height(16.dp))
-        Text("${movie.description}",
-            style = MaterialTheme.typography.bodySmall
-        )
-        Spacer(Modifier.height(16.dp))
-        Text("Актеры:",
+        Text(
+            actor.profession.joinToString(", "),
             style = MaterialTheme.typography.bodyLarge
         )
-
-        for (character in movie.persons) {
-            Spacer(Modifier.height(16.dp))
-            CharacterItem(character) {
-                onShowActor(character.id)
-            }
+        Spacer(Modifier.height(16.dp))
+        Text("Факты",
+            style = MaterialTheme.typography.bodyLarge
+        )
+        actor.facts.forEach {
+            Spacer(Modifier.height(8.dp))
+            Text("- $it",
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
+
     }
 }
 
 @Preview
 @Composable
-fun MovieDetailsPreview() {
+fun ActorDetailsPreview() {
     KinopoiskLightTheme {
-        MovieContent(MockEntities.mockMovieDetails(), {it -> }
-        )
+        ActorDetails(MockEntities.mockActorDetails())
     }
 }

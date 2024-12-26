@@ -1,11 +1,11 @@
 package com.pablok.kinopoisklight.ui.navigation
 
-import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.pablok.kinopoisklight.actor.ActorScreen
 import com.pablok.kinopoisklight.movie.MovieScreen
 import com.pablok.kinopoisklight.search.SearchScreen
 
@@ -24,7 +24,7 @@ sealed class NavDestination(
     )
 
     data object Actor: NavDestination(
-        route = "actor",
+        route = "actor/{uId}",
         title = "Актер"
     )
 }
@@ -38,7 +38,6 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-        //TODO add animation
         composable(NavDestination.Search.route) {
             SearchScreen() { movieId ->
                 navController.navigate(
@@ -53,18 +52,20 @@ fun NavGraph(
 
         composable(NavDestination.Movie.route) { navBackStackEntry ->
             val uId = navBackStackEntry.arguments?.getString("uId")
-            MovieScreen(uId)
+            MovieScreen(uId) { id ->
+                navController.navigate(
+                    NavDestination.Actor.route //Just modify your route accordingly
+                        .replace(
+                            oldValue = "{uId}",
+                            newValue = id.toString()
+                        )
+                )
+            }
         }
 
-        composable(NavDestination.Actor.route) {
-            TmpActorScreen(NavDestination.Actor.title)
+        composable(NavDestination.Actor.route) { navBackStackEntry ->
+            val uId = navBackStackEntry.arguments?.getString("uId")
+            ActorScreen(uId)
         }
     }
-}
-
-@Composable
-fun TmpActorScreen(
-    title: String
-) {
-    Text(title)
 }

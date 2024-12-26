@@ -1,5 +1,6 @@
 package com.pablok.kinopoisklight.actors_repository
 
+import android.util.Log
 import com.pablok.kinopoisklight.core.MockEntities
 import com.pablok.kinopoisklight.core.dto.ActorDetails
 import com.pablok.kinopoisklight.core.dto.Movie
@@ -36,6 +37,7 @@ class ActorsRepository @Inject constructor(
             val response = requestNetwork<ActorDetailsNet> {
                 api.getActor(id)
             }
+            Log.w("mytag", "response: $response")
             return toActorData(response, favorites)
         }
     }
@@ -47,6 +49,7 @@ class ActorsRepository @Inject constructor(
             val response = executable()
             if (response.isSuccessful) {
                 val successBody = response.body()
+                Log.d("mytag", "successBody: $successBody")
                 return NetworkResponse.Success(successBody)
             } else {
                 return NetworkResponse.Error(response.errorBody()?.string())

@@ -52,11 +52,12 @@ data class ActorDetailsNet(
     val id: Int,
     val name: String?,
     val photo: String?,
-    val profession: Array<ActorProfession>,
-    val birhtday: String?
+    val profession: Array<ArrayValue>,
+    val birthday: String?,
+    val facts: Array<ArrayValue>,
 )
 
 @Serializable
-data class ActorProfession(
+data class ArrayValue(
     val value: String
 )

@@ -5,6 +5,7 @@ import com.pablok.kinopoisklight.core.dto.ActorDetails
 import com.pablok.kinopoisklight.core.dto.Movie
 import com.pablok.kinopoisklight.core.dto.MovieDetails
 import com.pablok.kinopoisklight.core.dto.Thumbnail
+import java.util.Date
 import kotlin.random.Random
 
 object MockEntities  {
@@ -60,6 +61,7 @@ object MockEntities  {
         name = "Bruce",
         photoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Matthew_McConaughey_2019_%2848648344772%29.jpg/1920px-Matthew_McConaughey_2019_%2848648344772%29.jpg",
         profession = listOf("Актер", "Сценарист", "Продюсер"),
-        birhtday = "1962-01-01T00:00:00.000Z"
+        birhtday = Date("2001-12-11"),
+        facts = listOf("Факт1", "Факт2", "Факт3"),
     )
 }
