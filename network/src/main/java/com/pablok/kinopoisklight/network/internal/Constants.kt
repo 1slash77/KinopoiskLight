@@ -5,5 +5,5 @@ internal object Constants {
         "https://api.kinopoisk.dev/v1.4/"
 
     const val TOKEN =
-        "TYHS257-TEPMDHX-HHFYEXW-2C34G04"
+        "TYHS257-TEPMDHX-HHYFEXW-2C34G04"
 }
