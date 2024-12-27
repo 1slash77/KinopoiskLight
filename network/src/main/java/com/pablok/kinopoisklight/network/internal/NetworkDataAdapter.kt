@@ -95,10 +95,10 @@ class NetworkDataAdapter @Inject constructor() {
     fun toDomain(another:ActorDetailsNet) = ActorDetails(
         id = another.id,
         name = another.name,
-        photoUrl = another.photo,
+        photoUrl = fixUrl(another.photo),
         profession = another.profession.map { it.value }.toList(),
         birhtday = parseDate(another.birthday),
-        facts = another.facts.map { it.value }.toList(),
+        facts = another.facts.filter { !it.value.contains("href") }.map { it.value }.toList(),
     )
 
     private fun parseDate(s: String?): Date? {
@@ -109,5 +109,11 @@ class NetworkDataAdapter @Inject constructor() {
         } catch (_: Exception) {
             return null
         }
+    }
+
+    private fun fixUrl(s: String?): String? {
+        if (s!=null)
+        return s.replace("https:https:", "https:")
+        else return null
     }
 }
