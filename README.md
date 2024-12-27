@@ -5,6 +5,9 @@
 <h5>Просмотр и поиск фильмов, просмотр актеров</h5>
 </div>
 
+# Видео
+[KinopoiskLite_video.webm](https://github.com/user-attachments/assets/dcc32fc7-d5dc-41a2-aef3-5d52ef0d03b2)
+
 # Скриншоты
 <p align="center">
   <img src="screenshots/screenshot_1.png" alt="Экран фильмов текущего года с высоким рейтингом" width="250">
