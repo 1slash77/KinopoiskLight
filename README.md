@@ -39,5 +39,5 @@ https://kinopoiskdev.readme.io/reference/moviecontroller_findonev1_4
 
 # Связи между модулями
 <div align="center">
-  <img src="screenshots/kinopoisklite_diag.png" alt="Связи между модулями">
+  <img src="screenshots/kinopoisklite_diag.png" alt="Связи между модулями" height="600">
 </div>
