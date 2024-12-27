@@ -24,9 +24,8 @@
 - **Kotlin**.
 - **Compose**.
 - **Многомодульность**.
-- **Single Activity Application паттерн**.
-- **Для навигации используется Navigation Compose**.
-- **Архитектура презентационного слоя MVVM (ViewModel + StateFlow)**.
+- **Single Activity**.
+- **MVVM (ViewModel + StateFlow)**.
 - **Hilt (DI)**.
 - **Retrofit**.
 - **Room**.
@@ -37,5 +36,5 @@ https://kinopoiskdev.readme.io/reference/moviecontroller_findonev1_4
 
 # Связи между модулями
 <div align="center">
-  <img src="screenshots/module_connections.png" alt="Связи между модулями">
+  <img src="screenshots/kinopoisklite_diag.png" alt="Связи между модулями">
 </div>
